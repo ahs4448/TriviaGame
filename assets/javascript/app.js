@@ -1,46 +1,67 @@
-var questions = [{
-    question: "What did Doctor Emmett Brown steal to power his time machine?",
-    choices: ["Titanium", "Plutonium", "Liquid Nitrogen", "Alfredo Sauce"],
-    answer: 2
-}, {
-    question: "Whom did he steal this from?",
-    choices: ["Lybians", "Russians", "Germans", "Iranians"],
-    answer: 1
-}];
-
-var userAnswer = [];
-var correct;
-var incorrect;
+var questionsArray = [
+    "What did Doctor Emmett Brown steal to power his time machine?",
+    "Whom did he steal this from?"
+];
+var answersArray = [
+    ["Titanium", "Plutonium", "Liquid Nitrogen", "Alfredo Sauce"],
+    ["Lybians", "Russians", "Germans", "Iranians"]
+];
+var correctArray = [
+    "B. Plutonium",
+    "A. Lybians"
+];
+var correctNum = 0;
+var incorrectNum = 0;
+var notAnsweredNum = 0;
+var counter = 0;
+var timerCounter = 30;
 
 $(document).ready(function() {
 
     $("#startGame").on("click", function(event) {
         $("#startGame").hide();
         $("#time").html("<h2>00.00</h2>");
-        $("#questions").html("<h2>QUESTIONS GO HERE</h2>");
-        countdown(1);
+        $("#trivia").html("<h2>QUESTIONS GO HERE</h2>");
+        generateHTML();
+        clock();
     });
 
-    function countdown(minutes) {
-        var seconds = 60;
-        var mins = minutes
+    function clock() {
+        var time = setInterval(thirty, 1000);
 
-        function tick() {
-            //This script expects an element with an ID = "counter". You can change that to what ever you want. 
-            var counter = document.getElementById("counter");
-            var current_minutes = mins - 1
-            seconds--;
-            counter.innerHTML = "<h1>" + current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds) + "</h1>";
-            if (seconds > 0) {
-                setTimeout(tick, 1000);
-            } else {
-                if (mins > 1) {
-                    countdown(mins - 1);
-                }
+        function thirty() {
+            if (timerCounter === 0) {
+                clearInterval(time);
+                lossTimout();
             }
+            if (timerCounter > 0) {
+                timerCounter--;
+            }
+            $("#time").html(timerCounter);
         }
-        tick();
     };
+
+    function generateHTML() {
+        gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>30</span></p><p class='text-center'>" + questionsArray[counter] + "</p><p class='first-answer answer'>A. " + answersArray[counter][0] + "</p><p class='answer'>B. " + answersArray[counter][1] + "</p><p class='answer'>C. " + answersArray[counter][2] + "</p><p class='answer'>D. " + answersArray[counter][3] + "</p>";
+        $("#trivia").html(gameHTML);
+    };
+
+    $("body").on("click", ".answer", function(event) {
+        //answeredQuestion = true;
+        selectedAnswer = $(this).text();
+        console.log(selectedAnswer);
+        console.log(correctArray[counter]);
+        if (selectedAnswer === correctArray[counter]) {
+            alert("correct");
+
+            //clearInterval(theClock);
+            //generateWin();
+        } else {
+            alert("wrong answer!");
+            //clearInterval(theClock);
+            //generateLoss();
+        }
+    });
 
 
 

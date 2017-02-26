@@ -15,12 +15,17 @@
     font-size: 12pt;
 }
 
+.answer:hover {
+    background: white;
+}
+
 body {
     background: url('../images/bttfMoviePoster.jpg') no-repeat top center fixed;
     -moz-background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    color: yellow;
     text-align: center;
 }
 
